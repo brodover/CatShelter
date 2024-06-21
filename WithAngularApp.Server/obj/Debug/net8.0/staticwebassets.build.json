@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Hash": "jykIbeJr/Y9yYsm2kTjIOBZvVackifs4t5SrqyJfrCc=",
+  "Source": "WithAngularApp.Server",
+  "BasePath": "_content/WithAngularApp.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Rachel\\aspnetcore-tutorials\\WithAngularApp\\withangularapp.client\\withangularapp.client.esproj",
+      "Version": 2,
+      "Source": "withangularapp.client",
+      "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

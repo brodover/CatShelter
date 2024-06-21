@@ -1,0 +1,1 @@
+C:\Rachel\aspnetcore-tutorials\WithAngularApp\withangularapp.client\obj\Debug\withangularapp.client.esproj.CoreCompileInputs.cache
