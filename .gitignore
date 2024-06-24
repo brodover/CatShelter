@@ -482,3 +482,7 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+WithAngularApp.Server/obj/
+
+WithAngularApp.Server/bin/
