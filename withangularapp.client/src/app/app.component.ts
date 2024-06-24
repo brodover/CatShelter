@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
+  Date: string;
+  TemperatureC: number;
+  TemperatureF: number;
+  Summary: string;
 }
 
 @Component({
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   }
 
   getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
+    this.http.get<WeatherForecast[]>('/api/weatherforecast').subscribe(
       (result) => {
         this.forecasts = result;
       },
