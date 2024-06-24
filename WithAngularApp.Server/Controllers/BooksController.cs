@@ -1,27 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WithAngularApp.Server.Models;
+using WithAngularApp.Server.Database.Models;
 using WithAngularApp.Server.Services;
 
 namespace WithAngularApp.Server.Controllers
 {
 
-	[ApiController]
+    [ApiController]
 	[Route("api/[controller]")]
 	public class BooksController : ControllerBase
 	{
-		private readonly BooksService _booksService;
+		private readonly DbService _booksService;
 
-		public BooksController(BooksService booksService) =>
+		public BooksController(DbService booksService) =>
 			_booksService = booksService;
 
 		[HttpGet]
 		public async Task<List<Book>> Get() =>
-			await _booksService.GetAsync();
+			await _booksService.GetBooksAllAsync();
 
 		[HttpGet("{id:length(24)}")]
 		public async Task<ActionResult<Book>> Get(string id)
 		{
-			var book = await _booksService.GetAsync(id);
+			var book = await _booksService.GetBookAsync(id);
 
 			if (book is null)
 			{
@@ -34,7 +34,7 @@ namespace WithAngularApp.Server.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Post(Book newBook)
 		{
-			await _booksService.CreateAsync(newBook);
+			await _booksService.CreateBookAsync(newBook);
 
 			return CreatedAtAction(nameof(Get), new { id = newBook.Id }, newBook);
 		}
@@ -42,7 +42,7 @@ namespace WithAngularApp.Server.Controllers
 		[HttpPut("{id:length(24)}")]
 		public async Task<IActionResult> Update(string id, Book updatedBook)
 		{
-			var book = await _booksService.GetAsync(id);
+			var book = await _booksService.GetBookAsync(id);
 
 			if (book is null)
 			{
@@ -51,7 +51,7 @@ namespace WithAngularApp.Server.Controllers
 
 			updatedBook.Id = book.Id;
 
-			await _booksService.UpdateAsync(id, updatedBook);
+			await _booksService.UpdateBookAsync(id, updatedBook);
 
 			return NoContent();
 		}
@@ -59,14 +59,14 @@ namespace WithAngularApp.Server.Controllers
 		[HttpDelete("{id:length(24)}")]
 		public async Task<IActionResult> Delete(string id)
 		{
-			var book = await _booksService.GetAsync(id);
+			var book = await _booksService.GetBookAsync(id);
 
 			if (book is null)
 			{
 				return NotFound();
 			}
 
-			await _booksService.RemoveAsync(id);
+			await _booksService.RemoveBookAsync(id);
 
 			return NoContent();
 		}

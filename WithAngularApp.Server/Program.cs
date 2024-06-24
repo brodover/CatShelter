@@ -1,13 +1,18 @@
-using WithAngularApp.Server.Models;
+using WithAngularApp.Server.Data;
+using WithAngularApp.Server.Database;
 using WithAngularApp.Server.Services;
+
+DataClient.ParseData();
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.Configure<BookStoreDatabaseSettings>(
+builder.Services.Configure<DatabaseSettings>(
 	builder.Configuration.GetSection("BookStoreDatabase"));
 
-builder.Services.AddSingleton<BooksService>();
+builder.Services.AddSingleton<DbService>();
+
+builder.Services.AddSignalR();
 
 builder.Services.AddControllers()
     .AddJsonOptions(
