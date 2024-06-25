@@ -1,4 +1,6 @@
-﻿namespace WithAngularApp.Server
+﻿using System;
+
+namespace WithAngularApp.Server
 {
 	public static class ThreadSafeRandom
 	{
@@ -13,6 +15,14 @@
 				seed = _global.Next();
 			}
 			_local = new Random(seed);
+		}
+
+		public static Random Get()
+		{
+			if (_local == null)
+				Init();
+
+			return _local;
 		}
 
 		public static int Next()
@@ -47,6 +57,20 @@
 		public static T RandomElement<T>(this T[] array)
 		{
 			return array[Next(array.Length)];
+		}
+
+		public static T NextEnum<T>(this Random random)
+		where T : struct, Enum
+		{
+			var values = Enum.GetValues<T>();
+			return values[random.Next(values.Length)];
+		}
+
+		public static T NextEnumExcludingNone<T>(this Random random)
+		where T : struct, Enum
+		{
+			var values = Enum.GetValues<T>();
+			return values[random.Next(1, values.Length)];
 		}
 	}
 }

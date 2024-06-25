@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using WithAngularApp.Server.Data;
 using WithAngularApp.Server.Data.Models;
 using WithAngularApp.Server.Database.Models;
@@ -95,20 +95,33 @@ namespace WithAngularApp.Server.Controllers
 		{
 			var item = new Cat();
 
-			var catTypeList = DataClient.GetCatTypeList();
-			var catTypeTbl = catTypeList.RandomElement<CatType>();
-			item.Pattern = catTypeTbl.Pattern;
-			item.Color = catTypeTbl.Color;
-
 			var pick = ThreadSafeRandom.NextDouble();
-			var catStatList = DataClient.GetCatStatList();
-			foreach (var catStat in catStatList) {
-				if (catStat.Prob < pick)
-				{
-					item.Stats = catStat.Stat;
-				}
+			if (pick < Const.RainbowProb)
+			{
+				//rainbow color
+				item.Pattern = (int) ThreadSafeRandom.Get().NextEnumExcludingNone<Const.Pattern>();
+				item.Color = (int) Const.Color.Rainbow;
+			}
+			else
+			{
+				// normal colors
+				var catTypeList = DataClient.GetCatTypeList();
+				var catTypeTbl = catTypeList.RandomElement<CatType>();
+				item.Pattern = catTypeTbl.Pattern;
+				item.Color = catTypeTbl.Color;
 			}
 
+			// stat
+			pick = ThreadSafeRandom.NextDouble();
+			var catStatList = DataClient.GetCatStatList();
+			foreach (var catStat in catStatList) {
+				item.Stats = catStat.Stat;
+
+				if (pick < catStat.Prob)
+					break;
+			}
+
+			// name
 			var catNameList = DataClient.GetCatNameList();
 			var catName = catNameList.RandomElement<string>();
 			item.Name = catName;

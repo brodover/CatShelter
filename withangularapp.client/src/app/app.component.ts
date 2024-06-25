@@ -1,36 +1,31 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgFor, NgIf } from '@angular/common';
 
-interface WeatherForecast {
-  Date: string;
-  TemperatureC: number;
-  TemperatureF: number;
-  Summary: string;
-}
+import { Cat } from '../data/model';
+import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [NgIf, NgFor, WeatherForecastComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  public forecasts: WeatherForecast[] = [];
+  public myCats: Cat[] =[];
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.getForecasts();
+    this.getMyCats();
   }
 
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/api/weatherforecast').subscribe(
-      (result) => {
-        this.forecasts = result;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
+  getMyCats() {
+    this.http.get<Cat[]>('/api/Cats/Get').subscribe({
+      next: (result) => { this.myCats = result },  // nextHandler
+      error: (error) => { console.error(error); },  // errorHandler 
+    });
   }
 
   title = 'withangularapp.client';

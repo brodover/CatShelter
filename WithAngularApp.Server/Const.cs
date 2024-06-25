@@ -2,6 +2,8 @@
 {
 	public class Const
 	{
+		public const double RainbowProb = 0.05d;
+
 		public enum Pattern {
 			None,
 			Solid, 
