@@ -1,24 +1,66 @@
-<h1 id="tableLabel">My Adopted Cats</h1>
+<div>
+  <h1 id="tableLabel">Cat Shelter</h1>
 
-<p *ngIf="!myCats"><em>Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationangular">https://aka.ms/jspsintegrationangular</a> for more details.</em></p>
+  <button class="padding" (click)="visitCats()">Visit</button>
 
-<table *ngIf="myCats">
-    <thead>
+  <div *ngIf="showAdoptableCat">
+    <table>
+      <thead>
         <tr>
           <th>Name</th>
           <th>Pattern</th>
           <th>Color</th>
           <th>Stats</th>
         </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cat of adoptableCats">
+          <td>{{ cat.Name }}</td>
+          <td>{{ Pattern[cat.Pattern] }}</td>
+          <td>{{ Color[cat.Color] }}</td>
+          <td>{{ Stat[cat.Stats] }}</td>
+          <td><button (click)="adopt(cat)">Adopt</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div>
+  <h1 id="tableLabel">My Adopted Cats</h1>
+
+  <p *ngIf="!myCats"><em>Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationangular">https://aka.ms/jspsintegrationangular</a> for more details.</em></p>
+
+  <table *ngIf="showMyCat">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Pattern</th>
+        <th>Color</th>
+        <th>Stats</th>
+      </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let cat of myCats">
-          <td>{{ cat.Name }}</td>
-          <td>{{ cat.Pattern }}</td>
-          <td>{{ cat.Color }}</td>
-          <td>{{ cat.Stats }}</td>
-        </tr>
+      <tr *ngFor="let cat of myCats">
+        <td>
+          <span>{{ cat.Name }}</span>
+          <div *ngIf="cat._showButton">
+            <form [formGroup]="renameForm" (ngSubmit)="renameSubmit(cat)">
+              <div>
+                <input id="name" type="text" formControlName="Name" placeholder="{{cat.Name}}">
+              </div>
+              <button type="submit">Confirm</button>
+              <button (click)="renameCancel(cat)">Cancel</button>
+            </form>
+          </div>
+        </td>
+        <td>{{ Pattern[cat.Pattern] }}</td>
+        <td>{{ Color[cat.Color] }}</td>
+        <td>{{ Stat[cat.Stats] }}</td>
+        <td><button (click)="rename(cat)">Rename</button></td>
+        <td><button (click)="abandon(cat)">Abandon</button></td>
+      </tr>
     </tbody>
-</table>
+  </table>
+</div>
 
-<app-weather-forecast></app-weather-forecast>

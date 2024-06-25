@@ -74,19 +74,19 @@ namespace WithAngularApp.Server.Controllers
 			return NoContent();
 		}
 
-		[HttpPut("{id:length(24)}")]
-		public async Task<IActionResult> Update(string id, string catName)
+		[HttpPut]
+		public async Task<IActionResult> Rename([FromBody] Request.Rename body)
 		{
-			var item = await _service.GetCatAsync(id);
+			var item = await _service.GetCatAsync(body.Id);
 
 			if (item is null)
 			{
 				return NotFound();
 			}
 
-			item.Name = catName;
+			item.Name = body.Name;
 
-			await _service.UpdateCatAsync(id, item);
+			await _service.UpdateCatAsync(body.Id, item);
 
 			return NoContent();
 		}

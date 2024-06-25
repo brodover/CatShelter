@@ -5,7 +5,7 @@
 		public const double RainbowProb = 0.05d;
 
 		public enum Pattern {
-			None,
+			NA,
 			Solid, 
 			Bicolor,
 			Tabby,
@@ -14,8 +14,8 @@
 			Tortoiseshell,
 		}
 		
-		public enum Color { 
-			None,
+		public enum Color {
+			NA,
 			White,
 			Black, 
 			Grey,
@@ -25,7 +25,7 @@
 		}
 
 		public enum Stat {
-			None,
+			NA,
 			Average,
 			Good,
 			Great,
