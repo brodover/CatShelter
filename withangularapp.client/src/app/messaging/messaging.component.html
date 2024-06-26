@@ -1,13 +1,14 @@
-Message Board
+<h1>Message Board</h1>
+<span class="tiny">Me: {{ myMessage.Username }}</span>
 <div id="divMessages" class="messages">
-  <div *ngFor="let msg of receivedMessages">
-    <div class="message-author">{{ msg.Username }}:</div><div>{{ msg.Content }}</div>
+  <div class="message" *ngFor="let msg of receivedMessages">
+    <span class="message-author">{{ msg.Username }}: </span><span>{{ msg.Content }}</span>
   </div>
 </div>
 <div class="input-zone">
   <form [formGroup]="sendForm" (ngSubmit)="sendSubmit()">
     <div>
-      <input class="input-zone-input" type="text" formControlName="Content" placeholder="Type a message..">
+      <input class="input" id="message" type="text" formControlName="Content" placeholder="Type a message..">
     </div>
     <button type="submit">Send</button>
   </form>

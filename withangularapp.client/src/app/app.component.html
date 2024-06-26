@@ -52,7 +52,7 @@
           <div *ngIf="cat._showButton">
             <form [formGroup]="renameForm" (ngSubmit)="renameSubmit(cat)">
               <div>
-                <input type="text" formControlName="Name" placeholder="{{cat.Name}}">
+                <input id="name" type="text" formControlName="Name" placeholder="{{cat.Name}}">
               </div>
               <button type="submit">Confirm</button>
               <button (click)="renameCancel(cat)">Cancel</button>

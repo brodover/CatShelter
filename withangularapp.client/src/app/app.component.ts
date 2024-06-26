@@ -86,10 +86,11 @@ export class AppComponent implements OnInit {
    * Rename user's cat name
    */
   rename(cat: Cat) {
-    this.renameForm.value.Name = '';
+    this.name.reset();
     this.myCats.forEach(aCat => { aCat._showButton = false; });
     cat._showButton = true;
   }
+  get name(): any { return this.renameForm.get('Name'); }
 
   renameSubmit(cat: Cat) {
     cat._showButton = false;

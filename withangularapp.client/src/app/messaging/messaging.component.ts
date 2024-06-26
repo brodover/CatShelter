@@ -26,7 +26,7 @@ export class MessagingComponent {
     private fb: FormBuilder
   ) {
     this.myMessage = {
-      Username: new Date().toTimeString(),
+      Username: new Date().getTime().toString(),
       Content: ''
     };
   }
@@ -46,8 +46,9 @@ export class MessagingComponent {
   sendSubmit() {
     this.myMessage.Content = this.sendForm.value.Content!;
     this.sendMessage(this.myMessage);
-    this.sendForm.value.Content = '';
+    this.content.reset();
   }
+  get content(): any { return this.sendForm.get('Content'); }
 
   sendMessage(message: Message) {
     this.signalRService.sendMessage(message);

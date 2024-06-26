@@ -14,13 +14,12 @@ export class AppSignalrService {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl('/hub')
       .withAutomaticReconnect()
+      .configureLogging(signalR.LogLevel.Information)
       .build();
   }
-
+  
   startConnection(): Observable<void> {
-    console.log("startConnection");
     return new Observable<void>((observer) => {
-      console.log("start observe");
       this.hubConnection
         .start()
         .then(() => {
@@ -37,13 +36,21 @@ export class AppSignalrService {
 
   receiveMessage(): Observable<Message> {
     return new Observable<Message>((observer) => {
-      this.hubConnection.on('ReceiveMessage', (message: Message) => {
-        observer.next(message);
+      this.hubConnection.on('ReceiveMessage', (username, content) => {
+        observer.next({
+          Username: username,
+          Content: content
+        });
       });
     });
   }
 
   sendMessage(message: Message): void {
-    this.hubConnection.invoke('SendMessage', message.Username, message.Content);
+    if (this.hubConnection.state === signalR.HubConnectionState.Connected) {
+      this.hubConnection.invoke('SendMessage', message.Username, message.Content)
+        .catch(err => console.error(err));
+    } else {
+      console.error(`Cannot send data if the connection is not in the "Connected" state. Current state: ${this.hubConnection.state}`);
+    }
   }
 }
