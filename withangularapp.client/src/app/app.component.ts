@@ -4,13 +4,14 @@ import { NgFor, NgIf } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { Cat } from '../data/model';
-import { Color, Pattern, Stat } from "../data/const";
+import { Color, Pattern, Stat } from '../data/const';
 import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
+import { MessagingComponent } from './messaging/messaging.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgIf, NgFor, WeatherForecastComponent, ReactiveFormsModule],
+  imports: [NgIf, NgFor, ReactiveFormsModule, WeatherForecastComponent, MessagingComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -67,6 +68,9 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * Get user's adopted cats
+   */
   getMyCats() {
     this.http.get<Cat[]>(`/api/Cats/GetAdopterId/mup`).subscribe({
       next: (result) => {
@@ -78,6 +82,9 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * Rename user's cat name
+   */
   rename(cat: Cat) {
     this.renameForm.value.Name = '';
     this.myCats.forEach(aCat => { aCat._showButton = false; });
@@ -105,6 +112,9 @@ export class AppComponent implements OnInit {
     cat._showButton = false;
   }
 
+  /**
+   * Delete user's cat
+   */
   abandon(cat: Cat) {
     if (confirm(`Are you sure you want to abandon ${cat.Name}?`)) {
       this.http.delete<any>(`/api/Cats/Abandon/${cat.Id}`).subscribe({

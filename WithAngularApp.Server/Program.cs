@@ -1,5 +1,6 @@
 using WithAngularApp.Server.Data;
 using WithAngularApp.Server.Database;
+using WithAngularApp.Server.Hubs;
 using WithAngularApp.Server.Services;
 
 DataClient.ParseData();
@@ -37,6 +38,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.MapHub<ChatHub>("hub");
 
 app.MapControllers();
 

@@ -10,3 +10,8 @@ export interface Cat {
 
   _showButton: boolean;
 }
+
+export interface Message {
+  Username: string;
+  Content: string;
+}

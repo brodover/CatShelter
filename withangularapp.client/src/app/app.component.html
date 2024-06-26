@@ -1,29 +1,34 @@
-<div>
-  <h1 id="tableLabel">Cat Shelter</h1>
 
-  <button class="padding" (click)="visitCats()">Visit</button>
+<h1 id="tableLabel">Cat Shelter</h1>
 
-  <div *ngIf="showAdoptableCat">
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Pattern</th>
-          <th>Color</th>
-          <th>Stats</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let cat of adoptableCats">
-          <td>{{ cat.Name }}</td>
-          <td>{{ Pattern[cat.Pattern] }}</td>
-          <td>{{ Color[cat.Color] }}</td>
-          <td>{{ Stat[cat.Stats] }}</td>
-          <td><button (click)="adopt(cat)">Adopt</button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<div class="newline">
+  <button (click)="visitCats()">Visit</button>
+</div>
+
+<div class="newline" *ngIf="showAdoptableCat">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Pattern</th>
+        <th>Color</th>
+        <th>Stats</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cat of adoptableCats">
+        <td>{{ cat.Name }}</td>
+        <td>{{ Pattern[cat.Pattern] }}</td>
+        <td>{{ Color[cat.Color] }}</td>
+        <td>{{ Stat[cat.Stats] }}</td>
+        <td><button (click)="adopt(cat)">Adopt</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="newline">
+  <app-messaging></app-messaging>
 </div>
 
 <div>
@@ -47,7 +52,7 @@
           <div *ngIf="cat._showButton">
             <form [formGroup]="renameForm" (ngSubmit)="renameSubmit(cat)">
               <div>
-                <input id="name" type="text" formControlName="Name" placeholder="{{cat.Name}}">
+                <input type="text" formControlName="Name" placeholder="{{cat.Name}}">
               </div>
               <button type="submit">Confirm</button>
               <button (click)="renameCancel(cat)">Cancel</button>
