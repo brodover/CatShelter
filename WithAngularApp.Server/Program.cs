@@ -14,8 +14,12 @@ builder.Services.AddControllers()
 
 builder.Services.AddSignalR();
 
+// Log the current environment
+var env = builder.Environment.EnvironmentName;
+Console.WriteLine($">>>>>>>>>>>>>> Current Environment: {env}");
+
 builder.Services.Configure<DatabaseSettings>(
-	builder.Configuration.GetSection("BookStoreDatabase"));
+	builder.Configuration.GetSection("Database"));
 
 builder.Services.AddSingleton<DbService>();
 
@@ -27,6 +31,7 @@ builder.Services.AddSwaggerGen();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
+builder.Logging.AddAzureWebAppDiagnostics();
 builder.Logging.SetMinimumLevel(LogLevel.Debug);
 
 var app = builder.Build();
