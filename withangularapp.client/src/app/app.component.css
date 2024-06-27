@@ -16,3 +16,7 @@ table {
 .newline {
   margin-bottom: 1rem;
 }
+
+.emphasize {
+  font-style: italic;
+}

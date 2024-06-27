@@ -3,8 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
-import { Cat } from '../data/model';
+import { Cat, Message } from '../data/model';
 import { Color, Pattern, Stat } from '../data/const';
+import { LocalStorageService } from './local-storage.service';
+import { AppSignalrService } from './app-signalr.service';
 import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
 import { MessagingComponent } from './messaging/messaging.component';
 
@@ -23,6 +25,12 @@ export class AppComponent implements OnInit {
   adoptableCats: Cat[] = [];
   myCats: Cat[] = [];
 
+  username: string = '';
+  megaphone: Message = {
+    Username: 'MEGAPHONE',
+    Content: ''
+  }
+
   showMyCat = false;
   showAdoptableCat = false;
 
@@ -32,10 +40,13 @@ export class AppComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private signalRService: AppSignalrService,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit() {
+    this.getUsername();
     this.getMyCats();
   }
 
@@ -58,11 +69,14 @@ export class AppComponent implements OnInit {
    */
   adopt(cat: Cat) {
     const index = this.adoptableCats.indexOf(cat);
-    cat.AdopterId = "mup";
+    cat.AdopterId = this.username;
     this.http.post<any>('/api/Cats/Adopt', cat).subscribe({
       next: (result) => {
         this.getMyCats();
         this.adoptableCats.splice(index, 1);
+
+        if (cat.Stats == Stat.Perfect || cat.Color == Color.Rainbow)
+          this.sendMegaphone(cat);
       },
       error: (error) => { console.error(error); },
     });
@@ -72,7 +86,7 @@ export class AppComponent implements OnInit {
    * Get user's adopted cats
    */
   getMyCats() {
-    this.http.get<Cat[]>(`/api/Cats/GetAdopterId/mup`).subscribe({
+    this.http.get<Cat[]>(`/api/Cats/GetAdopterId/${this.username}`).subscribe({
       next: (result) => {
         result.forEach(cat => { cat._showButton = false; });
         this.myCats = result;
@@ -127,5 +141,33 @@ export class AppComponent implements OnInit {
     }
   }
 
-  title = 'withangularapp.client';
+  setUsername(user: string) {
+    this.username = user;
+    this.localStorageService.setItem('Username', user);
+  }
+
+  getUsername() {
+    var user = this.localStorageService.getItem('Username');
+    if (user == null)
+      user = new Date().getTime().toString();
+
+    this.setUsername(user);
+  }
+
+  sendMegaphone(cat: Cat) {
+    var looks = Pattern[cat.Pattern];
+    if (cat.Color != Color.NA)
+      looks = Color[cat.Color] + ' ' + looks;
+
+    if (cat.Stats == Stat.Perfect) {
+      this.megaphone.Content = `${cat.AdopterId} adopted a ${looks} cat with Perfect stats!`;
+      if (cat.Color == Color.Rainbow)
+        this.megaphone.Content += '!! Wow!';
+    }
+    else
+      this.megaphone.Content = `${cat.AdopterId} adopted a ${looks} cat!`;
+    this.signalRService.sendMessage(this.megaphone);
+  }
+
+  title = 'Cat Shelter';
 }

@@ -19,8 +19,18 @@
       <tr *ngFor="let cat of adoptableCats">
         <td>{{ cat.Name }}</td>
         <td>{{ Pattern[cat.Pattern] }}</td>
-        <td>{{ Color[cat.Color] }}</td>
-        <td>{{ Stat[cat.Stats] }}</td>
+        <ng-template [ngIf]="cat.Color == Color.Rainbow" [ngIfElse]="notRainbow">
+          <td class="emphasize">{{ Color[cat.Color] }}</td>
+        </ng-template>
+        <ng-template #notRainbow>
+          <td>{{ Color[cat.Color] }}</td>
+        </ng-template>
+        <ng-template [ngIf]="cat.Stats == Stat.Perfect" [ngIfElse]="notPerfect">
+          <td class="emphasize">{{ Stat[cat.Stats] }}</td>
+        </ng-template>
+        <ng-template #notPerfect>
+          <td>{{ Stat[cat.Stats] }}</td>
+        </ng-template>
         <td><button (click)="adopt(cat)">Adopt</button></td>
       </tr>
     </tbody>
@@ -28,7 +38,7 @@
 </div>
 
 <div class="newline">
-  <app-messaging></app-messaging>
+  <app-messaging [username]="username"></app-messaging>
 </div>
 
 <div>
@@ -60,8 +70,18 @@
           </div>
         </td>
         <td>{{ Pattern[cat.Pattern] }}</td>
-        <td>{{ Color[cat.Color] }}</td>
-        <td>{{ Stat[cat.Stats] }}</td>
+        <ng-template [ngIf]="cat.Color == Color.Rainbow" [ngIfElse]="notRainbow">
+          <td class="emphasize">{{ Color[cat.Color] }}</td>
+        </ng-template>
+        <ng-template #notRainbow>
+          <td>{{ Color[cat.Color] }}</td>
+        </ng-template>
+        <ng-template [ngIf]="cat.Stats == Stat.Perfect" [ngIfElse]="notPerfect">
+          <td class="emphasize">{{ Stat[cat.Stats] }}</td>
+        </ng-template>
+        <ng-template #notPerfect>
+          <td>{{ Stat[cat.Stats] }}</td>
+        </ng-template>
         <td><button (click)="rename(cat)">Rename</button></td>
         <td><button (click)="abandon(cat)">Abandon</button></td>
       </tr>

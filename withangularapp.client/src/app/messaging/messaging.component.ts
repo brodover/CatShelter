@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { Message } from '../../data/model';
 import { AppSignalrService } from '../app-signalr.service';
-import { sendMessage } from '@microsoft/signalr/dist/esm/Utils';
+import { Stat, Color } from '../../data/const';
 
 @Component({
   selector: 'app-messaging',
@@ -14,8 +14,17 @@ import { sendMessage } from '@microsoft/signalr/dist/esm/Utils';
   styleUrl: './messaging.component.css'
 })
 export class MessagingComponent {
-  myMessage: Message;
+  public get stat(): typeof Stat { return Stat; }
+  public get color(): typeof Color { return Color; }
+  get content(): any { return this.sendForm.get('Content'); }
+
+  @Input() username: any;
   receivedMessages: Message[] = [];
+
+  myMessage: Message = {
+    Username: '',
+    Content: ''
+  }
 
   sendForm = this.fb.group({
     Content: ''
@@ -24,14 +33,14 @@ export class MessagingComponent {
   constructor(
     private signalRService: AppSignalrService,
     private fb: FormBuilder
-  ) {
-    this.myMessage = {
-      Username: new Date().getTime().toString(),
-      Content: ''
-    };
-  }
+  ) {}
 
   ngOnInit() {
+    this.myMessage = {
+      Username: this.username,
+      Content: ''
+    };
+
     this.signalRService.startConnection().subscribe(() => {
       this.signalRService.receiveMessage().subscribe((message) => {
         this.receivedMessages.push(message);
@@ -48,7 +57,6 @@ export class MessagingComponent {
     this.sendMessage(this.myMessage);
     this.content.reset();
   }
-  get content(): any { return this.sendForm.get('Content'); }
 
   sendMessage(message: Message) {
     this.signalRService.sendMessage(message);
