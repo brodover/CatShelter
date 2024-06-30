@@ -9,11 +9,12 @@ import { LocalStorageService } from './local-storage.service';
 import { AppSignalrService } from './app-signalr.service';
 import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
 import { MessagingComponent } from './messaging/messaging.component';
+import { FooterComponent } from './footer/footer.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [NgIf, NgFor, ReactiveFormsModule, WeatherForecastComponent, MessagingComponent],
+  imports: [NgIf, NgFor, ReactiveFormsModule, WeatherForecastComponent, MessagingComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
