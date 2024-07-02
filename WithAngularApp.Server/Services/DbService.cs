@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using WithAngularApp.Server.Database;
+using WithAngularApp.Server.Config;
 using WithAngularApp.Server.Database.Models;
 
 namespace WithAngularApp.Server.Services

@@ -1,5 +1,5 @@
+using WithAngularApp.Server.Config;
 using WithAngularApp.Server.Data;
-using WithAngularApp.Server.Database;
 using WithAngularApp.Server.Hubs;
 using WithAngularApp.Server.Services;
 
@@ -14,12 +14,7 @@ builder.Services.AddControllers()
 
 builder.Services.AddSignalR();
 
-// Log the current environment
-var env = builder.Environment.EnvironmentName;
-Console.WriteLine($">>>>>>>>>>>>>> Current Environment: {env}");
-
-builder.Services.Configure<DatabaseSettings>(
-	builder.Configuration.GetSection("Database"));
+builder.Services.AddConfig(builder.Configuration);
 
 builder.Services.AddSingleton<DbService>();
 
@@ -32,7 +27,10 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 builder.Logging.AddAzureWebAppDiagnostics();
-builder.Logging.SetMinimumLevel(LogLevel.Debug);
+if (builder.Environment.IsDevelopment())
+	builder.Logging.SetMinimumLevel(LogLevel.Debug);
+else
+	builder.Logging.SetMinimumLevel(LogLevel.Error);
 
 var app = builder.Build();
 
