@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using WithAngularApp.Server.Common;
 using WithAngularApp.Server.Data;
 using WithAngularApp.Server.Data.Models;
@@ -17,10 +18,16 @@ namespace WithAngularApp.Server.Controllers
 		public CatsController(DbService service) =>
 			_service = service;
 
+		/**
+		 * Get list of all cats
+		 */
 		[HttpGet]
 		public async Task<List<Cat>> Get() =>
 			await _service.GetCatsAllAsync();
 
+		/**
+		 * (unused) Get cat by id
+		 */
 		[HttpGet("{id:length(24)}")]
 		public async Task<ActionResult<Cat>> Get(string id)
 		{
@@ -34,17 +41,27 @@ namespace WithAngularApp.Server.Controllers
 			return item;
 		}
 
+		/**
+		 * Get list of cats by owner
+		 */
 		[HttpGet("{id}")]
+		[Authorize]
 		public async Task<List<Cat>> GetAdopterId(string id)
 		{
 			return await _service.GetCatsAdopterIdAsync(id);
 		}
 
+		/**
+		 * Generate random cats
+		 */
 		[HttpGet]
+
+		[Authorize]
 		public List<Cat> Visit()
 		{
+			var encounters = 3;
 			var catList = new List<Cat>();
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < encounters; i++)
 			{
 				catList.Add(Generate());
 			}
@@ -52,7 +69,12 @@ namespace WithAngularApp.Server.Controllers
 			return catList;
 		}
 
+		/**
+		 * Add cat to owner's list of cats
+		 */
 		[HttpPost]
+
+		[Authorize]
 		public async Task<IActionResult> Adopt(Cat item)
 		{
 			await _service.CreateCatAsync(item);
@@ -60,7 +82,12 @@ namespace WithAngularApp.Server.Controllers
 			return CreatedAtAction(nameof(Get), new { id = item.Id }, item);
 		}
 
+		/** 
+		 * Remove cat from owner's list of cats
+		 */
 		[HttpDelete("{id:length(24)}")]
+
+		[Authorize]
 		public async Task<IActionResult> Abandon(string id)
 		{
 			var item = await _service.GetCatAsync(id);
@@ -75,7 +102,12 @@ namespace WithAngularApp.Server.Controllers
 			return NoContent();
 		}
 
+		/**
+		 * Rename one of owned cats
+		 */
 		[HttpPut]
+
+		[Authorize]
 		public async Task<IActionResult> Rename([FromBody] Request.Rename body)
 		{
 			var item = await _service.GetCatAsync(body.Id);

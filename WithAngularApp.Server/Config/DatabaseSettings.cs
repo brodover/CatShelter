@@ -1,4 +1,4 @@
-﻿namespace WithAngularApp.Server.Config
+namespace WithAngularApp.Server.Config
 {
     public class DatabaseSettings
     {
