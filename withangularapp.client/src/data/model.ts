@@ -2,7 +2,7 @@ import { Color, Pattern, Stat } from "./const";
 
 export interface Cat {
   Id: string;
-  AdopterId: string;
+  OwnerId: string;
   Name: string;
   Pattern: Pattern;
   Color: Color;

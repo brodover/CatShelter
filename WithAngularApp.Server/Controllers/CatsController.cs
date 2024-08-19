@@ -46,9 +46,9 @@ namespace WithAngularApp.Server.Controllers
 		 */
 		[HttpGet("{id}")]
 		[Authorize]
-		public async Task<List<Cat>> GetAdopterId(string id)
+		public async Task<List<Cat>> GetOwnerId(string id)
 		{
-			return await _service.GetCatsAdopterIdAsync(id);
+			return await _service.GetCatsByOwnerIdAsync(id);
 		}
 
 		/**

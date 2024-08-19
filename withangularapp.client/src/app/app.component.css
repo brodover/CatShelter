@@ -3,20 +3,3 @@
     padding: 2rem;
     text-align: center;
 }
-
-th, td {
-    padding-left: .5rem;
-    padding-right: .5rem;
-}
-
-table {
-    margin: 0 auto;
-}
-
-.newline {
-  padding-bottom: 1rem;
-}
-
-.emphasize {
-  font-style: italic;
-}

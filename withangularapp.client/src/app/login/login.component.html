@@ -1,0 +1,13 @@
+<h1 id="tableLabel">Login</h1>
+
+<div class="newline">
+  <button (click)="loginGoogle()">Google Login</button>
+</div>
+
+<form [formGroup]="emailLoginForm" (ngSubmit)="loginEmailSubmit()">
+  <div>
+    <input id="email" type="text" formControlEmail="Email">
+    <input id="pass" type="text" formControlPass="Pass">
+  </div>
+  <button type="submit">Login</button>
+</form>

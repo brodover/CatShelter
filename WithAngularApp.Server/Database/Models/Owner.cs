@@ -4,20 +4,13 @@ using System.Text.Json.Serialization;
 
 namespace WithAngularApp.Server.Database.Models
 {
-    public class Cat
+    public class Owner
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
 
-        public string? OwnerId { get; set; }
-
         public string Name { get; set; } = null!;
 
-        public int Pattern { get; set; }
-
-        public int Color { get; set; }
-
-        public int Stats { get; set; }
     }
 }

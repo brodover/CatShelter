@@ -23,6 +23,7 @@
     <PackageJsonDependenciesAngularRouter Condition="$(PackageJsonDependenciesAngularRouter) == ''">^18.0.0</PackageJsonDependenciesAngularRouter>
     <PackageJsonDependenciesMicrosoftSignalr Condition="$(PackageJsonDependenciesMicrosoftSignalr) == ''">^7.0.14</PackageJsonDependenciesMicrosoftSignalr>
     <PackageJsonDependenciesTypesNode Condition="$(PackageJsonDependenciesTypesNode) == ''">^20.14.9</PackageJsonDependenciesTypesNode>
+    <PackageJsonDependenciesAngularOauth2Oidc Condition="$(PackageJsonDependenciesAngularOauth2Oidc) == ''">^17.0.2</PackageJsonDependenciesAngularOauth2Oidc>
     <PackageJsonDependenciesJestEditorSupport Condition="$(PackageJsonDependenciesJestEditorSupport) == ''">*</PackageJsonDependenciesJestEditorSupport>
     <PackageJsonDependenciesRunScriptOs Condition="$(PackageJsonDependenciesRunScriptOs) == ''">*</PackageJsonDependenciesRunScriptOs>
     <PackageJsonDependenciesRxjs Condition="$(PackageJsonDependenciesRxjs) == ''">~7.8.0</PackageJsonDependenciesRxjs>

@@ -50,8 +50,8 @@ namespace WithAngularApp.Server.Services
 		public async Task<Cat?> GetCatAsync(string id) =>
 			await _catsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
-		public async Task<List<Cat>> GetCatsAdopterIdAsync(string id) =>
-			await _catsCollection.Find(x => x.AdopterId == id).ToListAsync();
+		public async Task<List<Cat>> GetCatsByOwnerIdAsync(string id) =>
+			await _catsCollection.Find(x => x.OwnerId == id).ToListAsync();
 
 		public async Task CreateCatAsync(Cat cat) =>
 			await _catsCollection.InsertOneAsync(cat);
