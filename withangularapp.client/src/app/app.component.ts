@@ -7,6 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MessagingComponent } from './messaging/messaging.component';
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-root',
@@ -19,12 +20,21 @@ export class AppComponent implements OnInit {
   title = 'Cat Shelter';
   username: string = '';
 
+  user!: SocialUser;
+  loggedIn!: boolean;
+
   constructor(
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private authService: SocialAuthService
   ) { }
 
   ngOnInit() {
     this.getUsername();
+    this.authService.authState.subscribe((user) => {
+      console.log(user);
+      this.user = user;
+      this.loggedIn = (user != null);
+    });
   }
 
   setUsername(user: string) {

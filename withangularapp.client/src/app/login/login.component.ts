@@ -1,28 +1,15 @@
 import { Component } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { GoogleSigninButtonModule, SocialLoginModule } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [SocialLoginModule, GoogleSigninButtonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  emailLoginForm = this.fb.group({
-    Email: '',
-    Pass: ''
-  });
+  
+  constructor() { }
 
-  constructor(
-    private fb: FormBuilder
-  ) { }
-
-  loginGoogle() {
-
-  }
-
-  loginEmailSubmit() {
-
-  }
 }
