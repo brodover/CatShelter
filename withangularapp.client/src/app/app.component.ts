@@ -1,13 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-
-import { LocalStorageService } from './local-storage.service';
+import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { WeatherForecastComponent } from './weather-forecast/weather-forecast.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MessagingComponent } from './messaging/messaging.component';
-import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { UserAuthService } from './user-auth.service';
 
 @Component({
   selector: 'app-root',
@@ -16,38 +15,17 @@ import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'Cat Shelter';
-  username: string = '';
-
-  user!: SocialUser;
-  loggedIn!: boolean;
+  playerName$: Observable<string>;
 
   constructor(
-    private localStorageService: LocalStorageService,
-    private authService: SocialAuthService
-  ) { }
-
-  ngOnInit() {
-    this.getUsername();
-    this.authService.authState.subscribe((user) => {
-      console.log(user);
-      this.user = user;
-      this.loggedIn = (user != null);
-    });
+    private uaService: UserAuthService
+  ) {
+    this.playerName$ = uaService.playerName$;
   }
-
-  setUsername(user: string) {
-    this.username = user;
-    this.localStorageService.setItem('Username', user);
+  
+  setPlayerName(name: string) {
+    this.uaService.setPlayerName(name);
   }
-
-  getUsername() {
-    var user = this.localStorageService.getItem('Username');
-    if (user == null)
-      user = new Date().getTime().toString();
-
-    this.setUsername(user);
-  }
-
 }

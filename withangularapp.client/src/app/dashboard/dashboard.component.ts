@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
@@ -6,20 +6,21 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Color, Pattern, Stat } from '../../data/const';
 import { Cat, Message } from '../../data/model';
 import { AppSignalrService } from '../app-signalr.service';
+import { UserAuthService } from '../user-auth.service';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NgIf, NgFor, ReactiveFormsModule],
+  imports: [NgIf, NgFor, AsyncPipe, ReactiveFormsModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
-  @Input() username: any;
-
   Color: typeof Color = Color;
   Pattern: typeof Pattern = Pattern;
   Stat: typeof Stat = Stat;
+
+  playerName$: any;
 
   adoptableCats: Cat[] = [];
   myCats: Cat[] = [];
@@ -39,8 +40,11 @@ export class DashboardComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
-    private signalRService: AppSignalrService
-  ) { }
+    private signalRService: AppSignalrService,
+    private uaService: UserAuthService
+  ) {
+    this.playerName$ = this.uaService.playerName$;
+  }
 
   ngOnInit() {
     this.getMyCats();
@@ -65,7 +69,7 @@ export class DashboardComponent implements OnInit {
    */
   adopt(cat: Cat) {
     const index = this.adoptableCats.indexOf(cat);
-    cat.OwnerId = this.username;
+    cat.OwnerId = this.playerName$;
     this.http.post<any>('/api/Cats/Adopt', cat).subscribe({
       next: (result) => {
         this.getMyCats();
@@ -82,7 +86,7 @@ export class DashboardComponent implements OnInit {
    * Get user's adopted cats
    */
   getMyCats() {
-    this.http.get<Cat[]>(`/api/Cats/GetOwnerId/${this.username}`).subscribe({
+    this.http.get<Cat[]>(`/api/Cats/GetOwnerId/${this.playerName$}`).subscribe({
       next: (result) => {
         result.forEach(cat => { cat._showButton = false; });
         this.myCats = result;

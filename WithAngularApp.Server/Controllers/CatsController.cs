@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using WithAngularApp.Server.Common;
 using WithAngularApp.Server.Data;
 using WithAngularApp.Server.Data.Models;
@@ -45,7 +44,6 @@ namespace WithAngularApp.Server.Controllers
 		 * Get list of cats by owner
 		 */
 		[HttpGet("{id}")]
-		[Authorize]
 		public async Task<List<Cat>> GetOwnerId(string id)
 		{
 			return await _service.GetCatsByOwnerIdAsync(id);
@@ -55,8 +53,6 @@ namespace WithAngularApp.Server.Controllers
 		 * Generate random cats
 		 */
 		[HttpGet]
-
-		[Authorize]
 		public List<Cat> Visit()
 		{
 			var encounters = 3;
@@ -73,8 +69,6 @@ namespace WithAngularApp.Server.Controllers
 		 * Add cat to owner's list of cats
 		 */
 		[HttpPost]
-
-		[Authorize]
 		public async Task<IActionResult> Adopt(Cat item)
 		{
 			await _service.CreateCatAsync(item);
@@ -86,8 +80,6 @@ namespace WithAngularApp.Server.Controllers
 		 * Remove cat from owner's list of cats
 		 */
 		[HttpDelete("{id:length(24)}")]
-
-		[Authorize]
 		public async Task<IActionResult> Abandon(string id)
 		{
 			var item = await _service.GetCatAsync(id);
@@ -106,8 +98,6 @@ namespace WithAngularApp.Server.Controllers
 		 * Rename one of owned cats
 		 */
 		[HttpPut]
-
-		[Authorize]
 		public async Task<IActionResult> Rename([FromBody] Request.Rename body)
 		{
 			var item = await _service.GetCatAsync(body.Id);

@@ -1,5 +1,5 @@
 <h1>Message Board</h1>
-<span class="tiny">Me: {{ myMessage.Username }}</span>
+<span class="tiny">Me: {{ (playerName | async) }}</span>
 <div id="divMessages" class="messages">
   <div class="message" *ngFor="let msg of receivedMessages">
     <span class="message-author">{{ msg.Username }}: </span><span>{{ msg.Content }}</span>
