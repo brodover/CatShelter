@@ -12,5 +12,8 @@ namespace WithAngularApp.Server.Database.Models
 
         public string Name { get; set; } = null!;
 
+        public byte Provider { get; set; }
+
+        public string ProviderId { get; set; } = null!;
     }
 }

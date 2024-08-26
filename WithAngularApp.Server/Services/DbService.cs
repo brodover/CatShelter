@@ -2,12 +2,14 @@
 using MongoDB.Driver;
 using WithAngularApp.Server.Config;
 using WithAngularApp.Server.Database.Models;
+using static WithAngularApp.Server.Common.Const.Server;
 
 namespace WithAngularApp.Server.Services
 {
     public class DbService
 	{
 		private readonly IMongoCollection<Book> _booksCollection;
+		private readonly IMongoCollection<Owner> _ownersCollection;
 		private readonly IMongoCollection<Cat> _catsCollection;
 
 		public DbService(
@@ -21,6 +23,9 @@ namespace WithAngularApp.Server.Services
 
 			_booksCollection = mongoDatabase.GetCollection<Book>(
 				databaseSettings.Value.BooksCollectionName);
+
+			_ownersCollection = mongoDatabase.GetCollection<Owner>(
+				databaseSettings.Value.OwnersCollectionName);
 
 			_catsCollection = mongoDatabase.GetCollection<Cat>(
 				databaseSettings.Value.CatsCollectionName);
@@ -42,6 +47,18 @@ namespace WithAngularApp.Server.Services
 		public async Task RemoveBookAsync(string id) =>
 			await _booksCollection.DeleteOneAsync(x => x.Id == id);
 
+		//_ownersCollection
+		public async Task<Owner?> GetOwnerAsync(string id) =>
+			await _ownersCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
+
+		public async Task<Owner> GetOwnerByProviderIdAsync(string id, byte provider) =>
+			await _ownersCollection.Find(x => x.Provider == provider && x.ProviderId == id).FirstOrDefaultAsync();
+
+		public async Task CreateOwnerAsync(Owner item) =>
+			await _ownersCollection.InsertOneAsync(item);
+
+		public async Task UpdateOwnerAsync(string id, Owner item) =>
+			await _ownersCollection.ReplaceOneAsync(x => x.Id == id, item);
 
 		//_catsCollection
 		public async Task<List<Cat>> GetCatsAllAsync() =>

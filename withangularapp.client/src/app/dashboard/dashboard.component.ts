@@ -86,7 +86,7 @@ export class DashboardComponent implements OnInit {
    * Get user's adopted cats
    */
   getMyCats() {
-    this.http.get<Cat[]>(`/api/Cats/GetOwnerId/${this.playerName$}`).subscribe({
+    this.http.get<Cat[]>(`/api/Cats/GetByOwnerId/${this.playerName$}`).subscribe({
       next: (result) => {
         result.forEach(cat => { cat._showButton = false; });
         this.myCats = result;

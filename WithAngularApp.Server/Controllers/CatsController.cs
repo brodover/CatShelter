@@ -44,7 +44,7 @@ namespace WithAngularApp.Server.Controllers
 		 * Get list of cats by owner
 		 */
 		[HttpGet("{id}")]
-		public async Task<List<Cat>> GetOwnerId(string id)
+		public async Task<List<Cat>> GetByOwnerId(string id)
 		{
 			return await _service.GetCatsByOwnerIdAsync(id);
 		}
@@ -69,11 +69,31 @@ namespace WithAngularApp.Server.Controllers
 		 * Add cat to owner's list of cats
 		 */
 		[HttpPost]
-		public async Task<IActionResult> Adopt(Cat item)
+		public async Task<IActionResult> Adopt([FromBody] Request.Cat.Adopt body)
 		{
-			await _service.CreateCatAsync(item);
+			// create owner if does not exist
+			Owner? owner = null;
+			if (body.Cat.OwnerId != null)
+			{
+				var item = await _service.GetOwnerAsync(body.Cat.OwnerId);
+				if (item is not null)
+					owner = item;
+			}
+			if (owner is null)
+			{
+				owner = new Owner
+				{
+					Name = body.OwnerName
+				};
+				await _service.CreateOwnerAsync(owner);
+			}
+			
+			Console.WriteLine($"Adopt: {owner.Id}, {owner.Name}");
 
-			return CreatedAtAction(nameof(Get), new { id = item.Id }, item);
+			body.Cat.OwnerId = owner.Id;
+			await _service.CreateCatAsync(body.Cat);
+
+			return CreatedAtAction(nameof(Get), new { id = owner.Id }, body.Cat);
 		}
 
 		/** 
@@ -98,7 +118,7 @@ namespace WithAngularApp.Server.Controllers
 		 * Rename one of owned cats
 		 */
 		[HttpPut]
-		public async Task<IActionResult> Rename([FromBody] Request.Rename body)
+		public async Task<IActionResult> Rename([FromBody] Request.Cat.Rename body)
 		{
 			var item = await _service.GetCatAsync(body.Id);
 
@@ -119,11 +139,11 @@ namespace WithAngularApp.Server.Controllers
 			var item = new Cat();
 
 			var pick = ThreadSafeRandom.NextDouble();
-			if (pick < Const.RainbowProb)
+			if (pick < Const.Game.RainbowProb)
 			{
 				//rainbow color
-				item.Pattern = (int) ThreadSafeRandom.Get().NextEnumExcludingNone<Const.Pattern>();
-				item.Color = (int) Const.Color.Rainbow;
+				item.Pattern = (byte) ThreadSafeRandom.Get().NextEnumExcludingNone<Const.Game.Pattern>();
+				item.Color = (int) Const.Game.Color.Rainbow;
 			}
 			else
 			{

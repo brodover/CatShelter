@@ -14,10 +14,10 @@ namespace WithAngularApp.Server.Database.Models
 
         public string Name { get; set; } = null!;
 
-        public int Pattern { get; set; }
+        public byte Pattern { get; set; }
 
-        public int Color { get; set; }
+        public byte Color { get; set; }
 
-        public int Stats { get; set; }
+        public byte Stats { get; set; }
     }
 }

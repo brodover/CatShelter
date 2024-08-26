@@ -2,37 +2,50 @@
 {
     public class Const
     {
-        public const double RainbowProb = 0.05d;
+		public class Server
+		{
+			public enum Provider
+			{
+				None,
+				Google
+			}
+		}
 
-        public enum Pattern
+        public class Game
         {
-            NA,
-            Solid,
-            Bicolor,
-            Tabby,
-            Colorpoint,
-            Calico,
-            Tortoiseshell,
-        }
+			public const double RainbowProb = 0.05d;
 
-        public enum Color
-        {
-            NA,
-            White,
-            Black,
-            Grey,
-            Brown,
-            Orange,
-            Rainbow = 10
-        }
+			public enum Pattern
+			{
+				NA,
+				Solid,
+				Bicolor,
+				Tabby,
+				Colorpoint,
+				Calico,
+				Tortoiseshell,
+			}
 
-        public enum Stat
-        {
-            NA,
-            Average,
-            Good,
-            Great,
-            Perfect
-        }
+			public enum Color
+			{
+				NA,
+				White,
+				Black,
+				Grey,
+				Brown,
+				Orange,
+				Rainbow = 10
+			}
+
+			public enum Stat
+			{
+				NA,
+				Average,
+				Good,
+				Great,
+				Perfect
+			}
+		}
+        
     }
 }

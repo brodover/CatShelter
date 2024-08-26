@@ -7,7 +7,7 @@ namespace WithAngularApp.Server.Data.Models
 		[Index(0)]
 		public int Id { get; set; }
 		[Index(1)]
-		public int Stat { get; set; }
+		public byte Stat { get; set; }
 		[Index(2)]
 		public double Prob { get; set; }
 	}

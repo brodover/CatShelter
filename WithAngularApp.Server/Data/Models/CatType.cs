@@ -5,10 +5,10 @@ namespace WithAngularApp.Server.Data.Models
 	public class CatType
 	{
 		[Index(0)]
-		public int Id { get; set; }
+		public byte Id { get; set; }
 		[Index(1)]
-		public int Pattern { get; set; }
+		public byte Pattern { get; set; }
 		[Index(2)]
-		public int Color { get; set; }
+		public byte Color { get; set; }
 	}
 }

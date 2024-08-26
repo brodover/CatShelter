@@ -7,6 +7,7 @@ namespace WithAngularApp.Server.Config
         public string DatabaseName { get; set; } = null!;
 
         public string BooksCollectionName { get; set; } = null!;
-        public string CatsCollectionName { get; set; } = null!;
+		public string OwnersCollectionName { get; set; } = null!;
+		public string CatsCollectionName { get; set; } = null!;
     }
 }
